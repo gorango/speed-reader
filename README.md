@@ -8,6 +8,7 @@ See `"scripts"` in `package.json`.
 
 ## Roadmap
 
+- [ ] Pivot around optimal character
 - [ ] Progress bar/slider!?
 - [ ] Paragraph progress indicator - along the side?
 - [ ] Button controls
