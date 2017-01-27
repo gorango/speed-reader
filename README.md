@@ -1,6 +1,20 @@
-> Personal coding challenge to push my development skills.
+# speed-reader
 
-## Projects
+> Vue.js speed reader
 
-- [Ideas](https://github.com/gorango/daily-hacks/projects/1) contains results of an initial brainstorm.
-- Ideas are converted to [issues](https://github.com/gorango/daily-hacks/issues) and resolved with new completed branches.
+## Build Setup
+
+See `"scripts"` in `package.json`.
+
+## Roadmap
+
+- [ ] Progress bar/slider!?
+- [ ] Paragraph progress indicator - along the side?
+- [ ] Button controls
+- [ ] Keyboard controls
+  - [ ] Play/pause
+  - [ ] Change wpm
+  - [ ] Skip sentences/paragraphs
+- [ ] Indicate current word in text
+- [ ] Live scroll text
+- [ ] Show pictures / tables / embeds
