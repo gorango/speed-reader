@@ -1,7 +1,16 @@
 <template>
   <section>
     <div>
-      <textarea tabindex="0" rows="10" v-model='text' v-on:keyup.enter='read'></textarea>
+      <textarea v-if='!reading' tabindex="0" v-model='text' v-on:keyup.enter='read'></textarea>
+      <article v-if='reading'>
+        {{ text }}
+      </article>
+    </div>
+    <div class='play-controls'>
+      <button v-on:click='prev()'>prev</button>
+      <button v-if='!reading' v-on:click='read()'>play</button>
+      <button v-if='reading' v-on:click='pause'>pause</button>
+      <button v-on:click='next()'>next</button>
     </div>
     <reader></reader>
   </section>
@@ -21,28 +30,47 @@ export default {
         `"This is a speed reading experiment." ` +
         `Follow along -- see how easy it is to ` +
         `read at speeds far above your current comfort level. ` +
-        `By not having to move your eyes across the screen ` +
-        `in order to follow the text, you can use more ` +
-        `of your cognitive bandwidth to process the text ` +
-        `more quickly (and more efficiently).` +
-        ` Enjoy!`
+        `Enjoy!`
+    }
+  },
+  computed: {
+    reading () {
+      return this.$store.state.reading
     }
   },
   methods: {
     read (e) {
-      if (e.ctrlKey) store.dispatch('read', this.text)
-    }
+      if (e) {
+        if (e.ctrlKey) store.dispatch('read', this.text)
+      } else {
+        store.dispatch('read', this.text)
+      }
+    },
+    play () { store.dispatch('play') },
+    pause () { store.dispatch('pause') },
+    next () { store.dispatch('next') },
+    prev () { store.dispatch('prev') }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-textarea {
+textarea, article {
   display: block;
+  font-size: 14px;
+  font-family: monospace;
+  height: 200px;
   margin: 0 auto;
   max-width: 600px;
   padding: 1rem;
   width: 100%;
+}
+
+article { border: 1px solid transparent }
+
+.play-controls {
+  text-align: center;
+  margin-top: 1rem;
 }
 </style>

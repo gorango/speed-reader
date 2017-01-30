@@ -8,6 +8,7 @@ import {
   getSentences
 } from './parse'
 import {
+  getDelay,
   wordDelayModifier,
   wordShouldBeSplit,
   splitWord
@@ -19,6 +20,7 @@ export {
   MATCH,
   parseText,
   getSentences,
+  getDelay,
   wordDelayModifier,
   wordShouldBeSplit,
   splitWord

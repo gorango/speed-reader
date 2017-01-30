@@ -8,9 +8,16 @@ import {
 } from './'
 
 export const getSentences = text =>
-  text.replace(MATCH.SENTENCE_END, '$1|').split('|')
+  text.replace(MATCH.SENTENCE_END, '$1|').split('|').map(s => s.trim())
 
 export function parseText (text) {
+  const sentences = getSentences(text).reduce((arr, sen) => {
+    return [
+      ...arr,
+      sen.match(MATCH.TOKENS)
+    ]
+  }, [])
+  console.log(sentences)
   let result = []
   let modifier = 1
   let wraps
@@ -26,15 +33,18 @@ export function parseText (text) {
     wraps
   })
 
-  /* returns an array of separated words, punctuation, parens, quotes, ... */
+  /**
+   * returns an array of separated words, punctuation, parens, quotes, ...
+   */
   text.match(MATCH.TOKENS)
     .map(token => {
-      /* what it do:
+      /**
+       * what it do:
        * - register surrounding brackets, quotes, etc TODO: handle unclosed wraps
        * - apply timing transformations based on word len
        * - apply word-split transformations based on word len
        * - TODO: filter out citations, super/sub script references, urls, etc.
-       **/
+       */
       switch (token) {
         case WRAPS.DOUBLE_QUOTE.LEFT:
           ({ modifier, wraps } = getTokenMeta(WRAPS.DOUBLE_QUOTE))
@@ -56,11 +66,12 @@ export function parseText (text) {
           break
         case WRAPS.STANDARD_QUOTE.LEFT:
         case WRAPS.STANDARD_QUOTE.RIGHT:
-          /* STANDARD_QUOTE (") is the same on both left and right
+          /**
+           * STANDARD_QUOTE (") is the same on both left and right
            * so check if wraps has been created already
            * NOTE: could also check more precicely with:
            *   if (wraps.left === WRAPS.STANDARD_QUOTE.LEFT)
-           **/
+           */
           if (!wraps) {
             ({ modifier, wraps } = getTokenMeta(WRAPS.STANDARD_QUOTE))
           } else {
@@ -78,18 +89,19 @@ export function parseText (text) {
             modifier = MODIFIERS.END_PARAGRAPH
           } else { modifier = MODIFIERS.NORMAL }
 
-          modifier += wordDelayModifier(token)
+          modifier = modifier + wordDelayModifier(token)
           if (wordShouldBeSplit(token)) {
+            console.log(modifier)
             return splitWord(token).map(getToken)
           }
           return getToken(token)
       }
     })
-    /* filter out null objects from array (wraps, parens, ...) */
-    .filter(token => token)
-    /* map again to flatten any nested arrays and assign indices
+    .filter(token => token) // filter out null objects from array (wraps, parens, ...)
+    /**
+     * map again to flatten any nested arrays and assign indices
      * after null objects have been filtered out
-     **/
+     */
     .map(token => {
       if (({}).toString.call(token) === '[object Array]') {
         result = [

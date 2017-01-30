@@ -1,3 +1,5 @@
+export const getDelay = (modifier, wpm) => ((1000 * 60 / wpm) * modifier)
+
 export const wordDelayModifier = (word) => {
   let modifier = 0
   switch (word.length) {
@@ -55,9 +57,9 @@ export function splitWord (word) {
     result = [word]
   }
 
-  return result.map((word, index) => {
+  return result.map((word, i) => {
     // add a dash to the end of every segment except the last
-    if (index < result.length - 1) {
+    if (i < result.length - 1) {
       return [word, '-'].join('')
     }
     return word

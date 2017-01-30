@@ -31,7 +31,7 @@ export default {
 <style lang="css" scoped>
 
 .player {
-  width: 400px;
+  width: 300px;
   margin: 3rem auto;
 }
 
@@ -42,7 +42,7 @@ export default {
 
 .left, .right {
   background: rgba(0, 0, 0, 0.1);
-  width: 40px
+  width: 30px
 }
 
 .left, .right, .word {
@@ -55,7 +55,7 @@ export default {
 }
 
 .word {
-  height: 100px;
+  height: 60px;
   flex: auto;
 }
 </style>

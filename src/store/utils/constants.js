@@ -35,7 +35,7 @@ export const WRAPS = {
 
 export const MATCH = {
   DASHES: /^(\/|-|\.|--|—|–)$/gm,
-  SENTENCE_END: /[.?!…]+$/g,
+  SENTENCE_END: /([.?!…]+[\n\s"])/g,
   CLAUSE_END: /[,:]$/g,
   NEWLINE: /\n+/g,
   LINEFEED: /[.?!…'"”]+$/g,
