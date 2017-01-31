@@ -4,7 +4,7 @@ export const MODIFIERS = {
   END_CLAUSE: 1.8,
   START_SENTENCE: 1.3,
   END_SENTENCE: 2.2,
-  START_PARAGRAPH: 2.0,
+  START_PARAGRAPH: 3.0,
   END_PARAGRAPH: 2.8,
   SHORT_SPACE: 1.5,
   LONG_SPACE: 2.2
@@ -35,10 +35,15 @@ export const WRAPS = {
 
 export const MATCH = {
   DASHES: /^(\/|-|\.|--|—|–)$/gm,
-  SENTENCE_END: /([.?!…]+[\n\s"])/g,
-  CLAUSE_END: /[,:]$/g,
+  WRAPS: /(«»""“”()\[\])/g,
+  SENTENCE_TAIL: /([.?!…]+[\n\s"])/g,
+  SENTENCE_END: /[.?!…]/g,
+  PUNCTUATED: /[.?!…]/g,
+  CLAUSE_END: /([,:]|\s-(\/|-|\.|--|—|–))/g,
   NEWLINE: /\n+/g,
   LINEFEED: /[.?!…'"”]+$/g,
   // TODO: handle nested double quotes in TOKENS
-  TOKENS: /["«»“”()/–—]|--+|\n+|[^\s"“«»”()/–—]+/g
+  TOKENS: /["«»“”()/–—]|--+|\n+|[^\s"“«»”()/–—]+/g,
+  TOKENS_AND_SPACES: /["«»“”()/–—]|\s|--+|\n+|[^\s"“«»”()/–—]+/g,
+  WRAPS_AND_SPACES: '«»""“”()[] '
 }

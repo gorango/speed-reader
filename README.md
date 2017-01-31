@@ -8,14 +8,14 @@ See `"scripts"` in `package.json`.
 
 ## Roadmap
 
-- [ ] Pivot around optimal character
-- [ ] Progress bar/slider!?
-- [ ] Paragraph progress indicator - along the side?
-- [ ] Button controls
+- [x] Pivot around optimal character
+- [x] Progress ~~bar/~~slider
+- [x] Paragraph progress indicator ~~- along the side?~~
+- [x] Button controls
 - [ ] Keyboard controls
   - [ ] Play/pause
   - [ ] Change wpm
   - [ ] Skip sentences/paragraphs
-- [ ] Indicate current word in text
+- [x] Indicate current word in text
 - [ ] Live scroll text
 - [ ] Show pictures / tables / embeds

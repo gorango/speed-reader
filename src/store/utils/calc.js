@@ -1,28 +1,37 @@
-export const getDelay = (modifier, wpm) => ((1000 * 60 / wpm) * modifier)
+export const wordDelay = (modifier, wpm) => ((1000 * 60 / wpm) * modifier)
 
 export const wordDelayModifier = (word) => {
   let modifier = 0
   switch (word.length) {
     case 6:
     case 7:
-      modifier = 0.4
+      modifier = modifier + 0.4
       break
     case 8:
     case 9:
-      modifier = 0.6
+      modifier = modifier + 0.6
       break
     case 10:
     case 11:
-      modifier = 0.8
+      modifier = modifier + 0.8
       break
     case 12:
     case 13:
-      modifier = 1
+      modifier = modifier + 1
   }
   return modifier
 }
 
-export function wordShouldBeSplit (word) {
+export const wordOffset = (word) => {
+  const len = word.length
+  if (len < 3) return 4
+  else if (len < 6) return 3
+  else if (len < 10) return 2
+  else if (len < 14) return 1
+  else return 1
+}
+
+export const wordShouldBeSplit = word => {
   const isLongWord = word.length > 13
   const isMediumWord = word.length > 9
   const containsDash = word.indexOf('-') > -1
@@ -30,7 +39,7 @@ export function wordShouldBeSplit (word) {
 }
 
 // split a long word into sensible sections
-export function splitWord (word) {
+export const splitWord = word => {
   let result
   if (wordShouldBeSplit(word)) {
     const dashIndex = word.indexOf('-')

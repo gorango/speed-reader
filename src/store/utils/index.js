@@ -4,12 +4,14 @@ import {
   MATCH
 } from './constants'
 import {
-  parseText,
-  getSentences
+  getSentences,
+  // makeBlocks,
+  parseText
 } from './parse'
 import {
-  getDelay,
+  wordDelay,
   wordDelayModifier,
+  wordOffset,
   wordShouldBeSplit,
   splitWord
 } from './calc'
@@ -18,10 +20,14 @@ export {
   MODIFIERS,
   WRAPS,
   MATCH,
-  parseText,
+
   getSentences,
-  getDelay,
+  // makeBlocks,
+  parseText,
+
+  wordDelay,
   wordDelayModifier,
+  wordOffset,
   wordShouldBeSplit,
   splitWord
 }
