@@ -56,24 +56,30 @@ export default {
   skipTo ({ commit, dispatch, state }, globalIndex) {
     if (!state.active) return
     pausePlaying()
-    state.blocks.reduce((found, block, blockIndex) => {
-      if (found) {
-        commit('SET_BLOCK_INDEX', blockIndex - 1)
-        commit('DISPLAY_WORD', found)
-      }
-      let takeNext
-      return block.filter((token, tokenIndex) => {
-        if (takeNext) return !(takeNext = false)
-        if (token.globalIndex === globalIndex) {
-          if (token.ignore) {
-            takeNext = true
-          } else {
-            return true
-          }
+    const { token: _token, blockIndex: _blockIndex } = state.blocks
+      .reduce((found, block, blockIndex) => {
+        if (found.token) return found
+        let takeNext
+        return {
+          blockIndex,
+          token: block.filter((token, tokenIndex) => {
+            if (takeNext) return !(takeNext = false)
+            if (token.globalIndex === globalIndex) {
+              if (token.ignore) {
+                takeNext = true
+              } else {
+                return true
+              }
+            }
+            return false
+          })[0]
         }
-        return false
-      })[0]
-    }, false)
+      }, false)
+
+    if (_token) {
+      commit('SET_BLOCK_INDEX', _blockIndex)
+      commit('DISPLAY_WORD', _token)
+    }
     if (state.playing) {
       playing = setTimeout(() =>
         dispatch('play'),

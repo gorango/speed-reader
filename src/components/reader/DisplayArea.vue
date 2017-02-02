@@ -1,8 +1,9 @@
 <template lang="html">
-  <article v-if='active'>
+  <article class="p2 mx-auto max-width-3 block relative" v-if='active'>
     <p v-for='(block, _blockIndex) in blocks'
       v-bind:class='{ active: blockIndex === _blockIndex }'>
       <span v-for='(token, tokenIndex) in block'
+        v-on:click='$store.dispatch("skipTo", token.globalIndex)'
         v-bind:class='{ active: globalIndex === token.globalIndex }'
         v-html='token.word'>
       </span>
@@ -27,6 +28,7 @@ export default {
       spans.forEach(span => {
         if (!span.innerHTML.includes(' ')) {
           const offset = span.offsetTop + span.parentNode.offsetTop
+          // console.log(offset)
           // TODO: throttle calls, animate scroll transition
           article.scrollTop = offset - (article.clientHeight / 2)
         }
@@ -36,19 +38,14 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
   article {
     border: 1px solid transparent;
-    display: block;
-    font-size: 14px;
-    font-family: 'Ubuntu Mono';
+    font-family: sans-serif;
+    font-size: 16px;
     height: 400px;
     line-height: 1;
-    margin: 0 auto;
-    max-width: 700px;
     overflow: auto;
-    padding: 1rem;
-    position: relative;
     resize: none;
     width: 100%;
   }
@@ -71,5 +68,5 @@ export default {
     width: 10px;
   }
 
-  span.active { background: rgba(0, 0, 0, 0.1); }
+  span.active { background: rgba(0, 0, 0, 0.1) }
 </style>

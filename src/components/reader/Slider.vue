@@ -1,6 +1,7 @@
 <template lang="html">
   <div>
     <input
+    class="block mx-auto"
     type='range'
     min='0'
     v-bind:value='progress.value'
@@ -26,11 +27,14 @@ export default {
   methods: {
     update (e) {
       const value = Number.parseInt(e.target.value)
-      this.$emit('update', value)
+      this.$store.dispatch('skipTo', value)
     }
   }
 }
 </script>
 
 <style lang="css" scoped>
+  input {
+    width: 300px
+  }
 </style>

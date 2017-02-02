@@ -1,15 +1,16 @@
 <template lang="html">
-  <div class='player'>
-    <div class='left'>
+  <div class='player flex mx-auto bg-darken-1'>
+    <div class='flex justify-center bg-darken-1' style="width: 30px">
       <span v-if='word.wraps'>{{ word.wraps.LEFT }}</span>
     </div>
-    <div class='word' v-bind:class='`offset-${word.offset}`'>
+    <div class='word flex flex-auto items-center relative'
+      v-bind:class='`offset-${word.offset}`'>
       <span class='h1 m0'>
         {{ word.word }}
       </span>
-      <small class='wpm'>{{ wpm }}</small>
+      <small class='center absolute right-0 bottom-0'>{{ wpm }}</small>
     </div>
-    <div class='right'>
+    <div class='flex justify-center bg-darken-1' style="width: 30px">
       <span v-if='word.wraps'>{{ word.wraps.RIGHT }}</span>
     </div>
   </div>
@@ -26,47 +27,20 @@ export default {
 </script>
 
 <style lang="css">
-  .wpm {
-    text-align: center;
-  }
-
-  .player, progress, input {
-    display: block;
-    width: 360px;
-    margin: 1rem auto;
-  }
-
   .player {
-    background: rgba(0, 0, 0, 0.1);
-    display: flex
-  }
-
-  .left, .right {
-    background: rgba(0, 0, 0, 0.1);
-    justify-content: center;
-    width: 30px
-  }
-
-  .left, .right, .word {
-    display: flex;
-    font-size: 36px;
-    font-family: 'Ubuntu Mono';
-    font-weight: bold;
-    align-items: center;
+    width: 300px;
+    min-height: 80px;
   }
 
   .word {
-    height: 100px;
-    position: relative;
-    flex: auto;
+    font-size: 36px;
+    font-family: 'Ubuntu Mono';
+    /*font-weight: bold;*/
   }
 
   .word small {
-    bottom: 0;
     line-height: 1;
-    position: absolute;
     padding: .1rem;
-    right: 0;
     font-size: 14px;
   }
 
@@ -75,7 +49,7 @@ export default {
     background: rgba(0, 0, 0, 0.1);
     content: '';
     display: block;
-    height: 20px;
+    height: 8px;
     left: 4.25ch;
     position: absolute;
     width: .5ch;
