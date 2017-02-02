@@ -5,7 +5,6 @@ import {
 } from './constants'
 import {
   getSentences,
-  // makeBlocks,
   parseText
 } from './parse'
 import {
@@ -22,7 +21,6 @@ export {
   MATCH,
 
   getSentences,
-  // makeBlocks,
   parseText,
 
   wordDelay,

@@ -39,31 +39,28 @@ export const wordShouldBeSplit = word => {
 }
 
 // split a long word into sensible sections
+// NOTE: wordShouldBeSplit() ^^ should be called first
 export const splitWord = word => {
   let result
-  if (wordShouldBeSplit(word)) {
-    const dashIndex = word.indexOf('-')
-    if (dashIndex > 0 && dashIndex < word.length - 1) {
-      return [
-        word.substr(0, dashIndex),
-        word.substr(dashIndex + 1)
-      ]
-    } else {
-      let segments = []
-      let partitions = Math.ceil(word.length / 8)
-      const partitionLength = Math.ceil(word.length / partitions)
-
-      while (partitions--) {
-        segments = [
-          ...segments,
-          word.substr(0, partitionLength)
-        ]
-        word = word.substr(partitionLength)
-      }
-      result = segments
-    }
+  const dashIndex = word.indexOf('-')
+  if (dashIndex > 0 && dashIndex < word.length - 1) {
+    return [
+      word.substr(0, dashIndex),
+      word.substr(dashIndex + 1)
+    ]
   } else {
-    result = [word]
+    let segments = []
+    let partitions = Math.ceil(word.length / 8)
+    const partitionLength = Math.ceil(word.length / partitions)
+
+    while (partitions--) {
+      segments = [
+        ...segments,
+        word.substr(0, partitionLength)
+      ]
+      word = word.substr(partitionLength)
+    }
+    result = segments
   }
 
   return result.map((word, i) => {
