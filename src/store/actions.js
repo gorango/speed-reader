@@ -56,12 +56,14 @@ export default {
   skipTo ({ commit, dispatch, state }, globalIndex) {
     if (!state.active) return
     pausePlaying()
-    state.blocks.reduce((found, block) => {
-      if (found) commit('DISPLAY_WORD', found)
-      // TODO: check if token is a space -- display next word
+    state.blocks.reduce((found, block, blockIndex) => {
+      if (found) {
+        commit('SET_BLOCK_INDEX', blockIndex - 1)
+        commit('DISPLAY_WORD', found)
+      }
       let takeNext
       return block.filter((token, tokenIndex) => {
-        if (takeNext) return true; takeNext = false
+        if (takeNext) return !(takeNext = false)
         if (token.globalIndex === globalIndex) {
           if (token.ignore) {
             takeNext = true
@@ -96,10 +98,7 @@ export default {
         // if near the start of block, go to previous block
         const threshold = 5 // TODO: update threshold to account for reading speed
         if (state.tokenIndex < threshold) {
-          commit(
-            'SET_BLOCK_INDEX',
-            state.blockIndex > 0 && state.blockIndex - 1 || 0
-          )
+          commit('SET_BLOCK_INDEX', state.blockIndex > 0 && state.blockIndex - 1 || 0)
         }
         commit('DISPLAY_WORD', state.blocks[state.blockIndex].find(token => token.tokenIndex === 0))
         break
@@ -119,10 +118,8 @@ export default {
         }
         break
       case 'PREV_SENTENCE':
-        const currentToken = state.blocks[state.blockIndex]
-          .find(token => token.globalIndex === state.globalIndex)
-        let lastTokens = state.blocks[state.blockIndex]
-          .filter(token => token.globalIndex < state.globalIndex && token.start)
+        const currentToken = state.blocks[state.blockIndex].find(token => token.globalIndex === state.globalIndex)
+        let lastTokens = state.blocks[state.blockIndex].filter(token => token.globalIndex < state.globalIndex && token.start)
         if (lastTokens.length) {
           const threshold = 10 // TODO: update threshold to account for reading speed
           if ((currentToken.globalIndex - lastTokens[lastTokens.length - 1].globalIndex) < threshold) {
@@ -136,7 +133,7 @@ export default {
             lastTokens = state.blocks[state.blockIndex - 1].filter(token => token.start)
             commit('SET_BLOCK_INDEX', state.blockIndex - 1)
           } else {
-            lastTokens = state.blocks[state.blockIndex].filter(token => token.start)
+            lastTokens = [state.blocks[state.blockIndex].find(token => token.start)]
           }
           commit('DISPLAY_WORD', lastTokens[lastTokens.length - 1])
         }

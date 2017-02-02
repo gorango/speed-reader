@@ -10,12 +10,12 @@ See `"scripts"` in `package.json`.
 
 - [x] Pivot around optimal character
 - [x] Progress ~~bar/~~slider
-- [x] Paragraph progress indicator ~~- along the side?~~
+- [x] Paragraph progress indicator
 - [x] Button controls
-- [ ] Keyboard controls
-  - [ ] Play/pause
-  - [ ] Change wpm
-  - [ ] Skip sentences/paragraphs
+- [x] Keyboard controls
+  - [x] Play/pause
+  - [x] Change wpm
+  - [x] Skip sentences/paragraphs
 - [x] Indicate current word in text
-- [ ] Live scroll text
-- [ ] Show pictures / tables / embeds
+- [x] Live scroll text
+- [ ] ~~Show pictures / tables / embeds~~
