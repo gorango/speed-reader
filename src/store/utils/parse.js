@@ -1,12 +1,5 @@
-import {
-  MODIFIERS,
-  WRAPS,
-  MATCH,
-  wordDelayModifier,
-  wordOffset,
-  wordShouldBeSplit,
-  splitWord
-} from './'
+import { wordDelayModifier, wordOffset, wordShouldBeSplit, splitWord } from './'
+import { MODIFIERS, WRAPS, MATCH } from '../constants'
 
 // NOTE: not in use
 // Split sentences using regex by matching ends of sentences.

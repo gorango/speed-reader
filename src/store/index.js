@@ -9,7 +9,7 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     ...initialState,
-    wpm: 500 // TODO: take from store
+    wpm: 500 // TODO: take from store (local/db)
   },
   actions,
   mutations

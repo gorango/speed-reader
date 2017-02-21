@@ -1,9 +1,4 @@
 import {
-  MODIFIERS,
-  WRAPS,
-  MATCH
-} from './constants'
-import {
   getSentences,
   parseText
 } from './parse'
@@ -16,10 +11,6 @@ import {
 } from './calc'
 
 export {
-  MODIFIERS,
-  WRAPS,
-  MATCH,
-
   getSentences,
   parseText,
 
