@@ -9,9 +9,10 @@ import {
 } from './'
 
 // NOTE: not in use
+// Split sentences using regex by matching ends of sentences.
 export const getSentences = text => text
   .split('\n')
-  .filter(p => p)
+  .filter(p => p) // filters out null and undefined
   .reduce((array, sentence) => ([
     ...array,
     ...sentence
@@ -21,6 +22,7 @@ export const getSentences = text => text
   ]), [])
 
 // NOTE: not in use
+// Find global indices for each start of new sentence.
 export const getSentenceIndices = sentences => {
   let globalIndex = 0
   return sentences.reduce((array, sentence, sentenceIndex) => {
@@ -38,9 +40,9 @@ export const getSentenceIndices = sentences => {
 }
 
 // populate information required for parentheses and quotes
-const getTokenMeta = wrap => ({
-  modifier: wrap ? MODIFIERS.START_CLAUSE : MODIFIERS.END_CLAUSE,
-  wraps: wrap
+const getTokenMeta = wraps => ({
+  modifier: wraps ? MODIFIERS.START_CLAUSE : MODIFIERS.END_CLAUSE,
+  wraps
 })
 
 // check if the word consists of a space or wrap elements
@@ -53,22 +55,22 @@ const shouldIgnoreToken = token => MATCH.WRAPS_AND_SPACES.includes(token)
  * @param  {String} text    any old string
  * @return {Object}         array of arrays of tokens
  */
-export const parseText = text => {
+export const parseText = body => {
   let globalIndex = 0
-  return text
+  return body
     .split('\n')
-    .filter(p => p)
+    .filter(p => p) // filters out null and undefined
     .reduce((array, block) => {
       let modifier = 1
       let wraps
 
-      const getToken = word => {
-        const ignore = shouldIgnoreToken(word)
-        const offset = wordOffset(word)
-        if (word.length < 3 && ignore) {
-          return { word, ignore }
+      const getToken = text => {
+        const ignore = shouldIgnoreToken(text)
+        const offset = wordOffset(text)
+        if (text.length < 3 && ignore) {
+          return { text, ignore }
         } else {
-          return { word, modifier, wraps, offset }
+          return { text, modifier, wraps, offset }
         }
       }
 
@@ -127,12 +129,11 @@ export const parseText = text => {
                 ...array,
                 ...token
               ]
-            } else {
-              return [
-                ...array,
-                token
-              ]
             }
+            return [
+              ...array,
+              token
+            ]
           }, [])
       ]
     }, [])
@@ -146,15 +147,17 @@ export const parseText = text => {
           } else {
             token = {
               ...token,
+              // only tokens with words receive a tokenIndex
               tokenIndex: tokenIndex - tokenIndexOffset
             }
           }
           token = {
+            // each token receives a blockIndex and globalIndex
             ...token,
             blockIndex,
             globalIndex: globalIndex++
           }
-          if (token.word.match(MATCH.SENTENCE_END) || token.word.match(MATCH.NEWLINE)) {
+          if (token.text.match(MATCH.SENTENCE_END) || token.text.match(MATCH.NEWLINE)) {
             token = {
               ...token,
               end: true

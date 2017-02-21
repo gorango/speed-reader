@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import SpeedReader from './components/SpeedReader'
+import SpeedReader from './components/reader'
 import store from './store'
 
 export default {
@@ -25,7 +25,5 @@ export default {
 <style>
   * { font-family: 'Ubuntu Mono'; }
 
-  #app {
-    height: 100vh
-  }
+  #app { height: 100vh }
 </style>

@@ -5,7 +5,7 @@
       <span v-for='(token, tokenIndex) in block'
         v-on:click='$store.dispatch("skipTo", token.globalIndex)'
         v-bind:class='{ active: globalIndex === token.globalIndex }'
-        v-html='token.word'>
+        v-html='token.text'>
       </span>
     </p>
   </article>

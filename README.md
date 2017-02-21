@@ -19,3 +19,6 @@ See `"scripts"` in `package.json`.
 - [x] Indicate current word in text
 - [x] Live scroll text
 - [ ] ~~Show pictures / tables / embeds~~
+- [ ] Show 'true' wpm
+- [ ] Show headings
+- [ ] Show bullet items

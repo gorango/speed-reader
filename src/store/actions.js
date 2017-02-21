@@ -14,12 +14,9 @@ export default {
     if (state.blocks.length === state.blockIndex) { return dispatch('stop') }
     state.blocks[state.blockIndex]
       .reduce((promise, token, tokenIndex) => {
-        if (
-          token.ignore ||
-          // when skipping to a new word, DISPLAY_WORD updates the globalIndex
-          // this reduce call needs to catch up to the globalIndex
-          token.globalIndex < state.globalIndex
-        ) {
+        // when skipping to a new word, DISPLAY_WORD updates the globalIndex
+        // this reduce call needs to catch up to the globalIndex
+        if (token.ignore || token.globalIndex < state.globalIndex) {
           return promise.then(delay => Promise.resolve(delay))
         }
         return promise.then(delay => (new Promise((resolve, reject) => {

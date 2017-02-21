@@ -1,16 +1,16 @@
 <template lang="html">
   <div class='player flex mx-auto bg-darken-1'>
-    <div class='flex justify-center bg-darken-1' style="width: 30px">
+    <div class='flex justify-center items-center bg-darken-1' style="width: 30px">
       <span v-if='word.wraps'>{{ word.wraps.LEFT }}</span>
     </div>
     <div class='word flex flex-auto items-center relative'
       v-bind:class='`offset-${word.offset}`'>
       <span class='h1 m0'>
-        {{ word.word }}
+        {{ word.text }}
       </span>
       <small class='center absolute right-0 bottom-0'>{{ wpm }}</small>
     </div>
-    <div class='flex justify-center bg-darken-1' style="width: 30px">
+    <div class='flex justify-center items-center bg-darken-1' style="width: 30px">
       <span v-if='word.wraps'>{{ word.wraps.RIGHT }}</span>
     </div>
   </div>
@@ -30,12 +30,7 @@ export default {
   .player {
     width: 300px;
     min-height: 80px;
-  }
-
-  .word {
     font-size: 36px;
-    font-family: 'Ubuntu Mono';
-    /*font-weight: bold;*/
   }
 
   .word small {
