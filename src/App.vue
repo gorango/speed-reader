@@ -1,11 +1,6 @@
 <template>
-  <div id="app" class="flex flex-column">
-    <header class="p2 bg-darken-1 mb4 center">
-      <h1 class="h3 m0 regular">
-        Speed Reader Experiment
-      </h1>
-    </header>
-    <speed-reader class="flex-auto"></speed-reader>
+  <div class="pt4 flex flex-column justify-center items-center relative">
+    <speed-reader></speed-reader>
   </div>
 </template>
 
@@ -23,7 +18,5 @@ export default {
 </script>
 
 <style>
-  * { font-family: 'Ubuntu Mono'; }
-
-  #app { height: 100vh }
+  body { background: transparent }
 </style>

@@ -1,53 +1,67 @@
 <template lang="html">
-  <div class='player flex mx-auto bg-darken-1'>
-    <div class='flex justify-center items-center bg-darken-1' style="width: 30px">
-      <span v-if='word.wraps'>{{ word.wraps.LEFT }}</span>
-    </div>
-    <div class='word flex flex-auto items-center relative'
-      v-bind:class='`offset-${word.offset}`'>
-      <span class='h1 m0'>
-        {{ word.text }}
-      </span>
-      <small class='center absolute right-0 bottom-0'>{{ wpm }}</small>
-    </div>
-    <div class='flex justify-center items-center bg-darken-1' style="width: 30px">
-      <span v-if='word.wraps'>{{ word.wraps.RIGHT }}</span>
-    </div>
+  <div class="player mx-auto">
+    <output class="flex rounded overflow-hidden border-top border-bottom border-black" style="border-width: 3px">
+      <div class='flex justify-center items-center' style="width: 30px">
+        <span v-if='word.wraps'>{{ word.wraps.LEFT }}</span>
+      </div>
+      <div class='word flex flex-auto items-center relative'
+        v-bind:class='`offset-${word.offset}`'>
+        <span>
+          {{ word.text }}
+        </span>
+      </div>
+      <div class='flex justify-center items-center' style="width: 30px">
+        <span v-if='word.wraps'>{{ word.wraps.RIGHT }}</span>
+      </div>
+    </output>
+    <tracker v-if="tracker"></tracker>
   </div>
 </template>
 
 <script>
+import Tracker from './Tracker'
+
 export default {
   name: 'player',
+  components: {
+    Tracker
+  },
+  props: [
+    'tracker'
+  ],
   computed: {
-    word () { return this.$store.state.word },
-    wpm () { return this.$store.state.wpm }
+    word () { return this.$store.state.word }
   }
 }
 </script>
 
 <style lang="css">
+  output {
+    font-family: 'Ubuntu Mono';
+    border-width: 3px;
+    font-size: 42px;
+    min-height: 90px;
+  }
+
   .player {
-    width: 300px;
-    min-height: 80px;
-    font-size: 36px;
+    width: 360px;
   }
 
   .word small {
-    line-height: 1;
-    padding: .1rem;
     font-size: 14px;
+    line-height: 1;
+    padding: .25rem;
   }
 
   .word::before,
   .word::after {
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 1);
     content: '';
     display: block;
     height: 8px;
-    left: 4.25ch;
+    left: 4.45ch;
     position: absolute;
-    width: .5ch;
+    width: 3px;
   }
 
   .word::before { top: 0 }

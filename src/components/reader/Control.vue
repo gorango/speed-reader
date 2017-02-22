@@ -1,16 +1,12 @@
 <template lang="html">
-  <section>
-    <div class='max-width-1 mx-auto flex items-center justify-center'>
+  <section class="flex">
+    <div class='flex items-center justify-center'>
       <button class="small" v-on:click='$store.dispatch(`skip`, `PREV_SENTENCE`)'
         title="keyboard: arrow left">
         <i class="material-icons">chevron_left</i>
       </button>
       <div class='flex flex-column items-center'>
-        <button class="small" v-on:click='$store.dispatch(`speed`, `UP`)'
-          title="keyboard: arrow up">
-          <i class="material-icons">expand_less</i>
-        </button>
-        <button v-if='!playing' v-on:click='$store.dispatch(`play`)'
+        <button v-if='!playing' v-on:click='active ? $store.dispatch(`play`) : $store.dispatch(`read`, text)'
           title="keyboard: space bar">
           <i class="material-icons">play_arrow</i>
         </button>
@@ -18,62 +14,40 @@
           title="keyboard: space bar">
           <i class="material-icons">pause</i>
         </button>
-        <button class="small" v-on:click='$store.dispatch(`speed`, `DOWN`)'
-          title="keyboard: arrow down">
-          <i class="material-icons">expand_more</i>
-        </button>
       </div>
       <button class="small" v-on:click='$store.dispatch(`skip`, `NEXT_SENTENCE`)'
         title="keyboard: arrow right">
         <i class="material-icons">chevron_right</i>
       </button>
     </div>
+    <slider class="mx3"></slider>
+    <div class="flex flex-column items-center justify-center">
+      <button class="small" v-on:click='$store.dispatch(`speed`, `UP`)'
+        title="keyboard: arrow up">
+        <i class="material-icons">expand_less</i>
+      </button>
+      <span style="padding: 0.2rem 0; font-family: 'Ubuntu Mono'">{{ wpm }} <span class="muted">wpm</span></span>
+      <button class="small" v-on:click='$store.dispatch(`speed`, `DOWN`)'
+        title="keyboard: arrow down">
+        <i class="material-icons">expand_more</i>
+      </button>
+    </div>
   </section>
 </template>
 
 <script>
+import Slider from './Slider'
+
 export default {
   name: 'control',
+  components: {
+    Slider
+  },
   props: ['text'],
   computed: {
     active () { return this.$store.state.active },
-    playing () { return this.$store.state.playing }
-  },
-  created () { window.addEventListener('keydown', this.keydown) },
-  beforeDestroy () { window.removeEventListener('keydown', this.keydown) },
-  methods: {
-    read () { this.$store.dispatch('read', this.text) },
-    keydown (e) {
-      switch (e.which) {
-        case 27: // escape
-          this.$store.dispatch('stop')
-          break
-        case 13: // enter
-          e.ctrlKey && this.read()
-          break
-        case 32: // space
-          this.active && (
-            this.playing
-              ? this.$store.dispatch('pause')
-              : this.$store.dispatch('play')
-          )
-          break
-        case 37: // left
-          if (e.ctrlKey) this.$store.dispatch('skip', 'PREV_PARAGRAPH')
-          else this.$store.dispatch('skip', 'PREV_SENTENCE')
-          break
-        case 38: // up
-          this.$store.dispatch('speed', 'UP')
-          break
-        case 39: // right
-          if (e.ctrlKey) this.$store.dispatch('skip', 'NEXT_PARAGRAPH')
-          else this.$store.dispatch('skip', 'NEXT_SENTENCE')
-          break
-        case 40: // down
-          this.$store.dispatch('speed', 'DOWN')
-          break
-      }
-    }
+    playing () { return this.$store.state.playing },
+    wpm () { return this.$store.state.wpm }
   }
 }
 </script>

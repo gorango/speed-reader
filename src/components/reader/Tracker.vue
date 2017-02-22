@@ -1,20 +1,17 @@
 <template lang="html">
-  <div class="flex">
-    <input
-    class="block mx-auto"
-    type='range'
-    min='0'
-    v-bind:value='progress.value'
-    v-bind:max='progress.max'
-    v-on:input.prevent='update'
-    v-on:keydown.prevent=''
-    />
+  <div>
+    <progress
+      class="progress"
+      style="height: .25rem"
+      v-bind:value='progress.value'
+      v-bind:max='progress.max'>
+    </progress>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'slider',
+  name: 'tracker',
   computed: {
     progress () {
       return {
@@ -32,9 +29,3 @@ export default {
   }
 }
 </script>
-
-<style lang="css" scoped>
-  input {
-    width: 360px
-  }
-</style>

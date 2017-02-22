@@ -1,5 +1,5 @@
 <template lang="html">
-  <article class="p2 mx-auto max-width-3 block relative" v-if='active'>
+  <article class="ver p2 mx-auto max-width-2 block relative">
     <p v-for='(block, _blockIndex) in blocks'
       v-bind:class='{ active: blockIndex === _blockIndex }'>
       <span v-for='(token, tokenIndex) in block'
@@ -12,8 +12,10 @@
 </template>
 
 <script>
+import { scrollTop } from '../utils'
+
 export default {
-  name: 'display-area',
+  name: 'vertical-scroll',
   computed: {
     blocks () { return this.$store.state.blocks },
     active () { return this.$store.state.active },
@@ -22,15 +24,14 @@ export default {
     word () { return this.$store.state.word }
   },
   watch: {
-    word (token) {
-      const article = document.querySelectorAll('article')[0]
-      const spans = document.querySelectorAll('span.active')
-      spans.forEach(span => {
-        if (!span.innerHTML.includes(' ')) {
+    word (_, token) {
+      const article = document.querySelectorAll('article.ver')[0]
+      // HACK: await dom digest
+      setTimeout(function () {
+        const span = document.querySelectorAll('article.ver span.active')[0]
+        if (span && span.innerHTML !== ' ') {
           const offset = span.offsetTop + span.parentNode.offsetTop
-          // console.log(offset)
-          // TODO: throttle calls, animate scroll transition
-          article.scrollTop = offset - (article.clientHeight / 2)
+          scrollTop(article, offset - (article.clientHeight / 2), 100)
         }
       })
     }
@@ -41,32 +42,31 @@ export default {
 <style lang="css" scoped>
   article {
     border: 1px solid transparent;
-    font-family: sans-serif;
-    font-size: 16px;
-    height: 400px;
-    line-height: 1;
+    height: 200px;
     overflow: auto;
-    resize: none;
     width: 100%;
   }
 
   p {
-    line-height: 1;
+    font-size: 18px;
+    line-height: 1.5;
     margin-top: 0;
     margin-bottom: 14px;
     position: relative;
   }
 
-  p.active::before {
-    background: rgba(0, 0, 0, 0.2);
-    content: '';
-    display: block;
-    height: 100%;
-    left: -20px;
-    position: absolute;
-    top: -2px;
-    width: 10px;
-  }
+  span { font-family: sans-serif }
 
   span.active { background: rgba(0, 0, 0, 0.1) }
+
+  span.active::before {
+    background: rgba(0, 0, 0, 0.15);
+    content: '';
+    display: block;
+    height: 1rem;
+    left: -20px;
+    position: absolute;
+    width: 10px;
+    transform: translateY(-135%);
+  }
 </style>

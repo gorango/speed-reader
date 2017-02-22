@@ -20,5 +20,6 @@ See `"scripts"` in `package.json`.
 - [x] Live scroll text
 - [ ] ~~Show pictures / tables / embeds~~
 - [ ] Show 'true' wpm
+- [ ] Show time -- progress / total
 - [ ] Show headings
 - [ ] Show bullet items

@@ -1,46 +1,112 @@
 <template>
   <section class="flex flex-column">
-    <textarea class="p2 mx-auto max-width-3 block"
-      v-if='!active' tabindex="0" v-model='text'></textarea>
-    <display-area></display-area>
-    <player class="mt3"></player>
-    <slider class="mt1"></slider>
-    <control class="mt1" v-bind:text='text'></control>
+    <control class="" v-bind:text='text'></control>
+    <hr class="my4">
+    <player class="" tracker="true"></player>
+    <hr class="my4">
+    <horizontal-scroll class=""></horizontal-scroll>
+    <hr class="my4">
+    <vertical-scroll class=""></vertical-scroll>
   </section>
 </template>
 
 <script>
-import DisplayArea from './DisplayArea'
 import Control from './Control'
 import Player from './Player'
+import Tracker from './Tracker'
 import Slider from './Slider'
+import HorizontalScroll from './HorizontalScroll'
+import VerticalScroll from './VerticalScroll'
 
 export default {
   name: 'speed-reader',
   components: {
-    DisplayArea,
     Control,
     Player,
-    Slider
+    Tracker,
+    Slider,
+    HorizontalScroll,
+    VerticalScroll
   },
   data () {
     return {
-      text: `Overview\n\nThere are a few popular implementations of speed-readers online. But most are dated, clunky, or exclusive to mobile. So I decided to take a stab at building my own.\n\nInspiration\n\nSpritz was the the main inspiration for this project (for a live demo check out Readsy or watch a Tech Crunch interview with the founder).\n\nSome great features in this implementation:\n\n- Variable display duration based on word length and position\n\n- Optimized word’s center alignment based on length\n\nSome shortcomings in this implementation:\n\n- Quoted and parenthesized text is difficult to identify\n\n- Few or poor controls\n\n- Little or no customization\n\n- No progress indicators\n\n- No traversal through original text available\n\n- No alternate modes for scrolling, chunking, or sliding text.\n\nWith these notes, I started hacking away. I gave myself a weekend to complete a working demo.\n\nTry using my reader to re-read what you just read`
+      text: `Speed reading is any of several techniques used to improve one's ability to read quickly. Speed reading methods include chunking and minimizing subvocalization. The many available speed reading training programs include books, videos, software, and seminars.\n\n\nHistory\n\nPsychologists and educational specialists working on visual acuity used a tachistoscope to conclude that, with training, an average person could identify minute images flashed on the screen for only one five-hundredth of a second (2 ms). Though the images used were of airplanes, the results had implications for reading.\n\nIt was not until the late 1950s that a portable, reliable and convenient device would be developed as a tool for increasing reading speed. Evelyn Wood, a researcher and schoolteacher, was committed to understanding why some people were naturally faster at reading and tried to force herself to read very quickly. In 1958, while brushing off the pages of a book she had thrown down in despair, she discovered that the sweeping motion of her hand across the page caught the attention of her eyes, and helped them move more smoothly across the page. She then used the hand as a pacer. Wood first taught the method at the University of Utah, before launching it to the public as Evelyn Wood's Reading Dynamics in Washington, D.C. in 1959.\n\n\nEffect on comprehension\n\nSkimming alone may not be ideal when complete comprehension of the text is the main objective. Skimming is mainly used when researching and getting an overall idea of the text. Nonetheless, when time is limited, skimming or skipping over text can aid comprehension. Duggan & Payne (2009) compared skimming with reading normally, given only enough time to read normally through half of a text. They found that the main points of the full text were better understood after skimming (which could view the full text) than after normal reading (which only read half the text). There was no difference between the groups in their understanding of less important information from the text.\n\nIn contrast, other findings suggest that speed reading courses which teach techniques that largely constitute skimming of written text result in a lower comprehension rate (below 50% comprehension on standardized comprehension tests).\n\nHyo Sang Shin (2012) in his book "Visual Reading and the Snowball of Understanding" claims that increasing one's reading speed does not lead to decreased comprehension. On the contrary, he argues that the faster the reading speed the better the comprehension. That phenomenon is described by Shin (2012) as a non zero-sum game between the reading speed and comprehension. Arvin Vohra, in "Introduction to Speed Reading and Rapid Analytical Reading" claims that grammar based speed reading can lead to a simultaneous increase in speed and comprehension. Just as moving from letter by letter reading in early childhood to word by word reading in later childhood increases speed and comprehension, he argues that reading clause by clause or phrase by phrase can cause a similar increase in speed and comprehension.\n\n\nSoftware\n\nComputer programs are available to help instruct speed reading students. Some programs present the data as a serial stream, since the brain handles text more efficiently by breaking it into such a stream before parsing and interpreting it. The 2000 National Reading Panel (NRP) report seems to support such a mechanism.\n\nTo increase speed, some older programs required readers to view the center of the screen while the lines of text around it grew longer. They also presented several objects (instead of text) moving line by line or bouncing around the screen; users had to follow the object(s) with only their eyes. A number of researchers criticize using objects instead of words as an effective training method, claiming that the only way to read faster is to read actual text. Many of the newer speed reading programs use built-in text, and they primarily guide users through the lines of an on-screen book at defined speeds. Often the text is highlighted to indicate where users should focus their eyes; they are not expected to read by pronouncing the words, but instead to read by viewing the words as complete images. The exercises are also intended to train readers to eliminate subvocalization, though it has not been proven that this will increase reading speed.`
     }
   },
   computed: {
-    active () { return this.$store.state.active }
+    active () { return this.$store.state.active },
+    playing () { return this.$store.state.playing }
+  },
+  created () {
+    window.addEventListener('keydown', this.keydown)
+    this.$store.dispatch('initialize', this.text)
+  },
+  beforeDestroy () { window.removeEventListener('keydown', this.keydown) },
+  methods: {
+    read () { this.$store.dispatch('read', this.text) },
+    keydown (e) {
+      switch (e.which) {
+        case 27: // escape
+          this.$store.dispatch('stop')
+          break
+        case 13: // enter
+          e.ctrlKey && this.read()
+          break
+        case 32: // space
+          this.active && (
+            this.playing
+              ? this.$store.dispatch('pause')
+              : this.$store.dispatch('play')
+          )
+          break
+        case 37: // left
+          if (e.ctrlKey) this.$store.dispatch('skip', 'PREV_PARAGRAPH')
+          else this.$store.dispatch('skip', 'PREV_SENTENCE')
+          break
+        case 38: // up
+          this.$store.dispatch('speed', 'UP')
+          break
+        case 39: // right
+          if (e.ctrlKey) this.$store.dispatch('skip', 'NEXT_PARAGRAPH')
+          else this.$store.dispatch('skip', 'NEXT_SENTENCE')
+          break
+        case 40: // down
+          this.$store.dispatch('speed', 'DOWN')
+          break
+      }
+    }
   }
 }
 </script>
 
 <style scoped>
-  textarea {
-    font-size: 16px;
-    line-height: 1;
-    height: 400px;
-    overflow: auto;
-    resize: none;
-    width: 100%;
-  }
+button {
+  align-items: center;
+  background-color: #ddd;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  height: 80px;
+  margin: .15rem;
+  outline: none;
+  transition: all .3s;
+  width: 80px;
+  z-index: 1;
+}
+
+i { font-size: 42px; }
+
+button:hover { background-color: #eee }
+button:active { background-color: #ccc }
+
+textarea {
+  font-size: 16px;
+  line-height: 1;
+  height: 400px;
+  overflow: auto;
+  resize: none;
+  width: 100%;
+}
 </style>

@@ -4,9 +4,12 @@ let playing
 function pausePlaying () { playing && clearTimeout(playing) }
 
 export default {
+  initialize ({ commit }, text) {
+    commit('INITIALIZE_STATE', text)
+  },
   read ({ commit, dispatch }, text) {
     pausePlaying()
-    commit('INITIALIZE_STATE', text)
+    dispatch('initialize', text)
     dispatch('play')
   },
   play ({ commit, dispatch, state }) {
@@ -45,7 +48,7 @@ export default {
   },
   stop ({ commit }) {
     pausePlaying()
-    commit('RESET_STATE')
+    // commit('RESET_STATE')
   },
   speed ({ commit }, direction) {
     commit('ADJUST_WPM', direction)
@@ -77,12 +80,12 @@ export default {
       commit('SET_BLOCK_INDEX', _blockIndex)
       commit('DISPLAY_WORD', _token)
     }
-    if (state.playing) {
-      playing = setTimeout(() =>
-        dispatch('play'),
-        wordDelay(state.word.modifier, state.wpm)
-      )
-    }
+    // if (state.playing) {
+    //   playing = setTimeout(() =>
+    //     dispatch('play'),
+    //     wordDelay(state.word.modifier, state.wpm)
+    //   )
+    // }
   },
   skip ({ commit, dispatch, state }, direction) {
     if (!state.active) return
