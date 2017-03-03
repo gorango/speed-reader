@@ -6,8 +6,8 @@ export function scrollTop (el, to, duration) {
   setTimeout(() => {
     el.scrollTop = el.scrollTop + offset
     if (el.scrollTop === to) return
-    scrollTop(el, to, duration - 5)
-  }, 5)
+    scrollTop(el, to, duration - 10)
+  }, 10)
 }
 
 export function scrollLeft (el, to, duration) {
@@ -18,6 +18,6 @@ export function scrollLeft (el, to, duration) {
   setTimeout(() => {
     el.scrollLeft = el.scrollLeft + offset
     if (el.scrollLeft === to) return
-    scrollLeft(el, to, duration - 5)
-  }, 5)
+    scrollLeft(el, to, duration - 10)
+  }, 10)
 }

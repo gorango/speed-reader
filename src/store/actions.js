@@ -14,7 +14,7 @@ export default {
   },
   play ({ commit, dispatch, state }) {
     commit('SET_PLAYING', true)
-    if (state.blocks.length === state.blockIndex) { return dispatch('stop') }
+    if (state.blocks.length === state.blockIndex) { return dispatch('pause') }
     state.blocks[state.blockIndex]
       .reduce((promise, token, tokenIndex) => {
         // when skipping to a new word, DISPLAY_WORD updates the globalIndex
@@ -48,7 +48,7 @@ export default {
   },
   stop ({ commit }) {
     pausePlaying()
-    // commit('RESET_STATE')
+    commit('RESET_STATE')
   },
   speed ({ commit }, direction) {
     commit('ADJUST_WPM', direction)
@@ -80,12 +80,12 @@ export default {
       commit('SET_BLOCK_INDEX', _blockIndex)
       commit('DISPLAY_WORD', _token)
     }
-    // if (state.playing) {
-    //   playing = setTimeout(() =>
-    //     dispatch('play'),
-    //     wordDelay(state.word.modifier, state.wpm)
-    //   )
-    // }
+    if (state.playing) {
+      playing = setTimeout(() =>
+        dispatch('play'),
+        wordDelay(state.word.modifier, state.wpm)
+      )
+    }
   },
   skip ({ commit, dispatch, state }, direction) {
     if (!state.active) return

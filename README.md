@@ -23,3 +23,5 @@ See `"scripts"` in `package.json`.
 - [ ] Show time -- progress / total
 - [ ] Show headings
 - [ ] Show bullet items
+- [ ] Enable multiple reader instances
+  - [ ] Create new store instances

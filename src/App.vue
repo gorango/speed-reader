@@ -1,5 +1,5 @@
 <template>
-  <div class="pt4 flex flex-column justify-center items-center relative">
+  <div id="app" class="flex flex-column justify-center items-center relative">
     <speed-reader></speed-reader>
   </div>
 </template>
@@ -19,4 +19,11 @@ export default {
 
 <style>
   body { background: transparent }
+
+  a { cursor: pointer }
+
+  #app {
+    height: 100vh;
+    width: 100vw;
+  }
 </style>

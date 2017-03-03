@@ -1,8 +1,9 @@
 <template lang="html">
   <div class="flex">
     <input
-    class="block mx-auto"
     type='range'
+    class="input-range"
+    style="width: 100%"
     min='0'
     v-bind:value='progress.value'
     v-bind:max='progress.max'
@@ -32,9 +33,3 @@ export default {
   }
 }
 </script>
-
-<style lang="css" scoped>
-  input {
-    width: 360px
-  }
-</style>

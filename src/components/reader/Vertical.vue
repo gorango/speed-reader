@@ -15,7 +15,7 @@
 import { scrollTop } from '../utils'
 
 export default {
-  name: 'vertical-scroll',
+  name: 'vertical',
   computed: {
     blocks () { return this.$store.state.blocks },
     active () { return this.$store.state.active },
@@ -42,22 +42,20 @@ export default {
 <style lang="css" scoped>
   article {
     border: 1px solid transparent;
-    height: 200px;
+    height: 300px;
     overflow: auto;
     width: 100%;
   }
 
   p {
-    font-size: 18px;
+    font-size: 20px;
     line-height: 1.5;
     margin-top: 0;
     margin-bottom: 14px;
     position: relative;
   }
 
-  span { font-family: sans-serif }
-
-  span.active { background: rgba(0, 0, 0, 0.1) }
+  span.active { background: rgba(0, 0, 0, 0.05) }
 
   span.active::before {
     background: rgba(0, 0, 0, 0.15);

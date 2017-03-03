@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="player mx-auto">
+  <div class="singleton mx-auto">
     <output class="flex rounded overflow-hidden border-top border-bottom border-black" style="border-width: 3px">
       <div class='flex justify-center items-center' style="width: 30px">
         <span v-if='word.wraps'>{{ word.wraps.LEFT }}</span>
@@ -22,7 +22,7 @@
 import Tracker from './Tracker'
 
 export default {
-  name: 'player',
+  name: 'singleton',
   components: {
     Tracker
   },
@@ -43,7 +43,7 @@ export default {
     min-height: 90px;
   }
 
-  .player {
+  .singleton {
     width: 360px;
   }
 

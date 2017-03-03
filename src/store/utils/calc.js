@@ -1,7 +1,7 @@
 export const wordDelay = (modifier, wpm) => ((1000 * 60 / wpm) * modifier)
 
-export const wordDelayModifier = (word) => {
-  let modifier = 0
+export const wordDelayModifier = (word, tokenIndex) => {
+  let modifier = !tokenIndex ? 0.4 : 0 // tokenIndex === false when token is first in paragraph
   switch (word.length) {
     case 6:
     case 7:

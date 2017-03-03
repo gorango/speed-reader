@@ -42,7 +42,7 @@ const getTokenMeta = wraps => ({
 const shouldIgnoreToken = token => MATCH.WRAPS_AND_SPACES.includes(token)
 
 /**
- * parseText - separate text into blocks of paragraphs each containing tokens
+ * parseText - separate text into blocks of paragraphs containing tokens
  * with instructions on how they should be displayed
  *
  * @param  {String} text    any old string
@@ -52,14 +52,14 @@ export const parseText = body => {
   let globalIndex = 0
   return body
     .split('\n')
-    .filter(p => p) // filters out null and undefined
+    .filter(p => p) // remove empty objects
     .reduce((array, block) => {
       let modifier = 1
       let wraps
 
       const getToken = text => {
-        const ignore = shouldIgnoreToken(text)
-        const offset = wordOffset(text)
+        const ignore = shouldIgnoreToken(text) // if text is a space or paren
+        const offset = wordOffset(text) // align optimal center character
         if (text.length < 3 && ignore) {
           return { text, ignore }
         } else {
@@ -100,19 +100,17 @@ export const parseText = body => {
                 }
                 break
               default:
+                if (wordShouldBeSplit(token)) {
+                  return splitWord(token).map(getToken)
+                }
                 // adjust modifier based on contents and position of the token
                 if (token.match(MATCH.DASHES)) modifier = MODIFIERS.SHORT_SPACE
                 else if (token.match(MATCH.SENTENCE_END)) modifier = MODIFIERS.END_SENTENCE
                 else if (token.match(MATCH.CLAUSE_END)) modifier = MODIFIERS.END_CLAUSE
                 else if (token.match(MATCH.NEWLINE)) modifier = MODIFIERS.END_PARAGRAPH
                 else modifier = MODIFIERS.NORMAL
-
-                modifier = modifier + wordDelayModifier(token) + (!tokenIndex ? 0.4 : 0)
-
-                if (wordShouldBeSplit(token)) {
-                  return splitWord(token).map(getToken)
-                }
             }
+            modifier += wordDelayModifier(token, tokenIndex)
             return getToken(token)
           })
           // flatten any nested arrays created by splitting long words

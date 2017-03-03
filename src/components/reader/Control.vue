@@ -20,16 +20,19 @@
         <i class="material-icons">chevron_right</i>
       </button>
     </div>
-    <slider class="mx3"></slider>
-    <div class="flex flex-column items-center justify-center">
-      <button class="small" v-on:click='$store.dispatch(`speed`, `UP`)'
-        title="keyboard: arrow up">
-        <i class="material-icons">expand_less</i>
-      </button>
-      <span style="padding: 0.2rem 0; font-family: 'Ubuntu Mono'">{{ wpm }} <span class="muted">wpm</span></span>
+    <slider class="mx3 flex-auto"></slider>
+    <div class="flex items-center justify-center">
       <button class="small" v-on:click='$store.dispatch(`speed`, `DOWN`)'
         title="keyboard: arrow down">
-        <i class="material-icons">expand_more</i>
+        <span style="font-size: 20px; margin-top: -1px;">-</span>
+      </button>
+      <span class="px1"
+        style="font-family: 'Ubuntu Mono'; white-space: nowrap;">
+        {{ wpm }}
+      </span>
+      <button class="small" v-on:click='$store.dispatch(`speed`, `UP`)'
+        title="keyboard: arrow up">
+        <span style="font-size: 20px;">+</span>
       </button>
     </div>
   </section>
@@ -58,6 +61,7 @@ export default {
     background-color: rgba(0, 0, 0, 0.15);
     border: 1px solid transparent;
     border-radius: 50%;
+    color: black;
     display: flex;
     justify-content: center;
     height: 50px;

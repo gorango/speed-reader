@@ -15,7 +15,7 @@
 import { scrollTop, scrollLeft } from '../utils'
 
 export default {
-  name: 'horizontal-scroll',
+  name: 'horizontal',
   computed: {
     blocks () { return this.$store.state.blocks },
     active () { return this.$store.state.active },
@@ -30,7 +30,8 @@ export default {
       setTimeout(function () {
         const span = document.querySelectorAll('article.hor span.active')[0]
         if (span && span.innerHTML !== ' ') {
-          const offsetLeft = span.offsetLeft + span.parentNode.offsetLeft
+          // console.log(span)
+          const offsetLeft = span.offsetLeft + span.parentNode.offsetLeft + (span.offsetWidth / 2)
           const offsetTop = span.offsetTop + span.parentNode.offsetTop
           scrollLeft(article, offsetLeft - (article.clientWidth / 2), 10)
           scrollTop(article, offsetTop - (article.clientHeight / 4), 100)
@@ -46,6 +47,7 @@ export default {
     border: 1px solid transparent;
     height: 50px;
     overflow: hidden;
+    position: relative;
     white-space: nowrap;
     width: 100%;
   }
@@ -58,8 +60,5 @@ export default {
     position: relative;
   }
 
-  span {
-    position: relative;
-    font-family: sans-serif;
-  }
+  span.active { background: rgba(0, 0, 0, 0.05) }
 </style>
