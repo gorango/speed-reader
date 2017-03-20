@@ -1,41 +1,10 @@
 import { wordDelayModifier, wordOffset, wordShouldBeSplit, splitWord } from './'
 import { MODIFIERS, WRAPS, MATCH } from '../constants'
 
-// NOTE: not in use
-// Split sentences using regex by matching ends of sentences.
-export const getSentences = text => text
-  .split('\n')
-  .filter(p => p) // filters out null and undefined
-  .reduce((array, sentence) => ([
-    ...array,
-    ...sentence
-      .replace(MATCH.SENTENCE_TAIL, '$1|')
-      .split('|')
-      .map(s => s.trim())
-  ]), [])
-
-// NOTE: not in use
-// Find global indices for each start of new sentence.
-export const getSentenceIndices = sentences => {
-  let globalIndex = 0
-  return sentences.reduce((array, sentence, sentenceIndex) => {
-    return [
-      ...array,
-      ...sentence
-        .match(MATCH.TOKENS_AND_SPACES)
-        .map((token, tokenIndex) => {
-          if (!tokenIndex) return globalIndex
-          globalIndex++
-        })
-        .filter(s => s > -1)
-    ]
-  }, [])
-}
-
 // populate information required for parentheses and quotes
 const getTokenMeta = wraps => ({
-  modifier: wraps ? MODIFIERS.START_CLAUSE : MODIFIERS.END_CLAUSE,
-  wraps
+  wraps,
+  modifier: wraps ? MODIFIERS.START_CLAUSE : MODIFIERS.END_CLAUSE
 })
 
 // check if the word consists of a space or wrap elements

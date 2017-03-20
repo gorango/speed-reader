@@ -1,6 +1,6 @@
 import { parseText } from './utils'
 
-export const initialState = {
+export const INITIAL_STATE = {
   active: false,
   playing: false,
   blocks: [],
@@ -9,6 +9,8 @@ export const initialState = {
   globalIndex: 0,
   word: {}
 }
+
+export const initialState = Object.freeze(INITIAL_STATE)
 
 export default {
   INITIALIZE_STATE: (state, text) => {

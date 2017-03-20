@@ -1,29 +1,24 @@
-<template>
-  <div id="app" class="flex flex-column justify-center items-center relative">
-    <speed-reader></speed-reader>
-  </div>
+<template lang="pug">
+main.flex.flex-column.justify-center.items-center.relative
+  h1.center Speed Reader
+  router-view
 </template>
 
 <script>
-import SpeedReader from './components/reader'
-import store from './store'
-
 export default {
-  name: 'app',
-  store,
-  components: {
-    SpeedReader
-  }
+  name: 'app'
 }
 </script>
 
-<style>
-  body { background: transparent }
+<style lang="postcss">
+@import './styles';
 
-  a { cursor: pointer }
+body { background: transparent }
 
-  #app {
-    height: 100vh;
-    width: 100vw;
-  }
+a { cursor: pointer }
+
+#app {
+  height: 100vh;
+  width: 100vw;
+}
 </style>

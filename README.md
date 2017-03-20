@@ -18,6 +18,7 @@ See `"scripts"` in `package.json`.
   - [x] Skip sentences/paragraphs
 - [x] Indicate current word in text
 - [x] Live scroll text
+  - [ ] Average/smooth vertical scroll (no jumping)
 - [ ] ~~Show pictures / tables / embeds~~
 - [ ] Show 'true' wpm
 - [ ] Show time -- progress / total

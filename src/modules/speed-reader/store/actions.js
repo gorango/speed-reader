@@ -15,7 +15,7 @@ export default {
   play ({ commit, dispatch, state }) {
     commit('SET_PLAYING', true)
     if (state.blocks.length === state.blockIndex) { return dispatch('pause') }
-    state.blocks[state.blockIndex]
+    state.blocks[state.blockIndex] && state.blocks[state.blockIndex]
       .reduce((promise, token, tokenIndex) => {
         // when skipping to a new word, DISPLAY_WORD updates the globalIndex
         // this reduce call needs to catch up to the globalIndex
@@ -131,8 +131,6 @@ export default {
           if ((currentToken.globalIndex - lastTokens[lastTokens.length - 1].globalIndex) < threshold) {
             lastTokens = lastTokens.slice(0, -1)
           }
-        }
-        if (lastTokens.length) {
           commit('DISPLAY_WORD', state.blocks[state.blockIndex].find(token => token.tokenIndex === lastTokens[lastTokens.length - 1].tokenIndex))
         } else {
           if (state.blockIndex > 0) {
@@ -146,11 +144,12 @@ export default {
         break
     }
 
-    if (state.playing) {
-      playing = setTimeout(() =>
-        dispatch('play'),
-        wordDelay(state.word.modifier, state.wpm)
-      )
-    }
+    dispatch('pause')
+    // if (state.playing) {
+    //   playing = setTimeout(() =>
+    //     dispatch('play'),
+    //     wordDelay(state.word.modifier, state.wpm)
+    //   )
+    // }
   }
 }

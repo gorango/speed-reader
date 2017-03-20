@@ -1,18 +1,31 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
-import actions from './actions'
-import mutations, { initialState } from './mutations'
+import createLogger from 'vuex/dist/logger'
 
 Vue.use(Vuex)
 
+const logger = createLogger({
+  collapsed: false, // auto-expand logged mutations
+  transformer (state) {
+    // transform the state before logging it.
+    // for example return only a specific sub-tree
+    return (
+      state['reader-1'] && state['reader-1'].word ||
+      state['reader-2'] && state['reader-2'].word
+    )
+  },
+  mutationTransformer (mutation) {
+    // mutations are logged in the format of { type, payload }
+    // we can format it any way we want.
+    return mutation.type
+  }
+})
+
 const store = new Vuex.Store({
   state: {
-    ...initialState,
-    wpm: 425 // TODO: take from store (local/db)
+    hello: 'world'
   },
-  actions,
-  mutations
+  plugins: [logger]
 })
 
 export default store

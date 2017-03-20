@@ -36,7 +36,7 @@ export const WRAPS = {
 export const MATCH = {
   DASHES: /^(\/|-|\.|--|—|–)$/gm,
   WRAPS: /(«»""“”()\[\])/g,
-  SENTENCE_TAIL: /([.?!…]+[\n\s"])/g,
+  SENTENCE_TAIL: /([\s]+[\w\d]+[.?!…]+[\n\s"])/g,
   SENTENCE_END: /[.?!…]/g,
   PUNCTUATED: /[.?!…]/g,
   CLAUSE_END: /([,:]|\s-(\/|-|\.|--|—|–))/g,
